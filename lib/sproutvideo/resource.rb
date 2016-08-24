@@ -24,6 +24,7 @@ module Sproutvideo
       resp = nil
       
       method = options.delete(:method) == :PUT ? :PUT : :POST
+      rest_client_options = options.delete(:rest_client_options)
 
       File.open(file_path) do |file|
         
@@ -38,7 +39,7 @@ module Sproutvideo
             method == :POST ? 'post' : 'put',
             "#{base_url}#{path}",
             body,
-            {'SproutVideo-Api-Key' => api_key, :timeout => 18000})
+            {'SproutVideo-Api-Key' => api_key, :timeout => 18000}.merge(rest_client_options))
         rescue => e
           puts e
           resp = e.response
